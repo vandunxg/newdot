@@ -1,0 +1,317 @@
+// Author: github.com/NeshHari
+* {
+  all: unset;
+}
+
+$base: #050508;
+$mantle: #181825;
+$crust: #11111b;
+$text: #cdd6f4;
+$subtext0: #a6adc8;
+$subtext1: #bac2de;
+$surface0: #313244;
+$surface1: #45475a;
+$surface2: #585b70;
+$overlay0: #6c7086;
+$overlay1: #7f849c;
+$overlay2: #9399b2;
+$blue: #89b4fa;
+$lavender: #b4befe;
+$sapphire: #74c7ec;
+$sky: #89dceb;
+$teal: #94e2d5;
+$green: #a6e3a1;
+$yellow: #f9e2af;
+$peach: #fab387;
+$maroon: #eba0ac;
+$red: #f38ba8;
+$mauve: #cba6f7;
+$pink: #f5c2e7;
+$flamingo: #f2cdcd;
+$rosewater: #f5e0dc;
+$transparent: #ff0000;
+
+.cal-inner-container,
+.cal-outer-container {
+  font-family: CascaydiaCode Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $text;
+  background-color: $base;
+  border-radius: 0.5em;
+  padding: 0.4em;
+}
+
+.cal-inner-elems {
+  padding: 0.4em;
+}
+
+.cal-outer-elems {
+  padding: 1em;
+}
+
+.cal-date {
+  font-family: Cream Cake;
+  font-size: 2em;
+  color: $base;
+  background-color: $mauve;
+  border-radius: 0.5em;
+  padding: 0.1em;
+  margin: 1em;
+}
+
+calendar.button {
+  color: $text;
+}
+
+calendar.header,
+calendar.highlight {
+  color: $mauve;
+}
+
+calendar:selected {
+  color: $base;
+  background-color: $mauve;
+  border-radius: 5em;
+}
+
+calendar:indeterminate {
+  color: $surface1;
+}
+
+.quote-container {
+  background-color: $base;
+  padding: 1em;
+}
+
+.quote-img {
+  background-repeat: no-repeat;
+  background-size: 50px;
+  min-height: 50px;
+  min-width: 50px;
+  border-radius: 2em;
+  margin-bottom: 1em;
+}
+
+.quote {
+  font-family: Vanilla Caramel;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: $text;
+}
+
+.bywho {
+  font-family: Vanilla Caramel;
+  font-size: 1em;
+  font-weight: bold;
+  color: $green;
+}
+
+.quotetoggler {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $green;
+  background-color: $base;
+}
+
+.quotetoggler :hover {
+  color: $base;
+  background-color: $green;
+  transition: ease 0.7s;
+}
+
+.spotify-container {
+  background-color: $base;
+  padding: 1em;
+}
+
+.spotify-img {
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-height: 240px;
+  min-width: 280px;
+  border-radius: 0.3em;
+  margin-left: 1.2em;
+}
+
+.spotify-inner-right-container {
+  padding: 1em;
+}
+
+.spotify-inner-right-container * {
+  margin: 0.2em;
+}
+
+.spotify-title {
+  font-family: Sugar Snow;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: $blue;
+}
+
+.spotify-singer {
+  font-size: 1.1em;
+  color: $sapphire;
+}
+
+.spotify-album {
+  font-size: 1em;
+  color: $sky;
+  font-style: italic;
+  margin-bottom: 1em;
+}
+
+.spotify-controls button {
+  font-family: CaskaydiaCove Nerd Font;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: $surface2;
+}
+
+.spotify-controls button:hover {
+  color: $green;
+  transition: ease 0.7s;
+}
+
+.powermenu-container,
+.powertoggler {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $red;
+  background-color: $base;
+}
+
+.powermenu-container > * {
+  padding: 0.5em;
+}
+
+.powermenu-container > *:hover {
+  color: $base;
+  background-color: $red;
+  border-radius: 0.3em;
+  transition: ease 0.7s;
+}
+
+.powertoggler :hover {
+  color: $base;
+  background-color: $red;
+  border-radius: 0.3em;
+  transition: ease 0.7s;
+}
+
+.timedisplay {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $mauve;
+  background-color: $base;
+}
+
+.timedisplay :hover {
+  color: $base;
+  background-color: $mauve;
+  border-radius: 0.3em;
+  transition: ease 0.7s;
+}
+
+.xmonad-layout-container {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $flamingo;
+  background-color: $base;
+  padding: 0.3em;
+}
+
+.wmclass-container {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $teal;
+  background-color: $base;
+  padding: 0.3em;
+}
+
+tooltip {
+  font-family: Vanilla Caramel;
+  font-size: 1em;
+  font-weight: bold;
+  color: $maroon;
+  background-color: $base;
+  padding: 0.3em;
+}
+
+.metric {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: $base;
+  color: $peach;
+  padding: 0.4em;
+}
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: $peach;
+  border-radius: 10px;
+}
+.metric scale trough {
+  all: unset;
+  background-color: $mantle;
+  border-radius: 2em;
+  min-height: 0.3em;
+  min-width: 4em;
+  margin-left: 0.8em;
+  margin-right: 0.2em;
+}
+
+.sysdatatoggler {
+  font-family: CaskaydiaCove Nerd Font;
+  font-size: 1em;
+  font-weight: bold;
+  color: $peach;
+  background-color: $base;
+}
+
+.sysdatatoggler :hover {
+  color: $base;
+  background-color: $peach;
+  transition: ease 0.7s;
+}
+
+.app-outer-container {
+  background-color: $base;
+}
+
+.app-inner-container {
+  padding: 1.5em;
+}
+
+.app-inner-container-top > * {
+  padding: 0.2em;
+  background-repeat: no-repeat;
+  background-size: 40px;
+  min-height: 40px;
+  min-width: 40px;
+  margin: 0 7 0 7;
+}
+.app-inner-container-bottom > * {
+  padding: 0.2em;
+  background-repeat: no-repeat;
+  background-size: 38px;
+  min-height: 38px;
+  min-width: 38px;
+  margin: 0 7 0 7;
+}
+
+.app-inner-container-top > *:hover {
+  background-size: 42px;
+  transition: ease 0.3s;
+}
+
+.app-inner-container-bottom > *:hover {
+  background-size: 40px;
+  transition: ease 0.3s;
+}

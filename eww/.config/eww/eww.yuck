@@ -1,0 +1,295 @@
+;; Author: github.com/NeshHari
+
+(defpoll quote :interval "24h" "scripts/quotes --quote")
+(defpoll bywho :interval "24h" "scripts/quotes --bywho")
+
+(defwidget quote []
+	(box :class "quote-container" :orientation "v" :hexpand "false"
+        (button :style "background-image :url('images/quote.svg');" :class "quote-img" :halign "center") 
+	    (label :class "quote" :halign "center" :wrap "true" :limit-width 100 :text quote)
+		(label :class "bywho" :halign "center" :wrap "true" :limit-width 100 :text bywho)))
+
+(defwindow showquote
+    :stacking "fg"
+	:geometry (geometry :x "13.5%"
+                        :y "4%"
+                        :width 350)
+(quote))
+
+(defwidget togglequote []
+  (box :class "quotetoggler"
+    (button :class "showquote" :onclick "eww open --toggle showquote" "" )
+  )
+)
+
+
+(defwindow quotetoggler
+    :stacking "fg"
+	:geometry (geometry :x "13.5%" 
+						:y "0.6%"
+                        :width 40
+                        :height 40
+			   )
+    (togglequote)
+)
+
+(defpoll calendar_day :interval "10h" "date '+%d'")
+(defpoll calendar_year :interval "10h" "date '+%Y'")
+(defpoll calendar_date :interval "24h" "date '+%A, %d %B'")
+
+(defwidget cal []
+	(box :class "cal-container" 
+	(box :class "cal-inner"
+	(calendar :class "cal-inner-elems" 
+			  :day calendar_day 
+			  :year calendar_year))))
+
+(defwidget fullcal[]
+  (box :orientation "v" :space-evenly "false" :class "cal-outer-container"
+    (box :class "cal-date" "${calendar_date}")
+    (cal)
+  )
+)
+  
+(defwindow mycal
+    :stacking "fg"
+	:geometry (geometry :x "74.5%" 
+						:y "4%" 
+						:width "380px" 
+						:height "20px")
+(fullcal))
+
+;; spotify
+(defpoll playpause :interval "0.5s"  "scripts/playpause --icon")
+(defpoll songtitle :interval "0.5s" "scripts/playpause --status")
+(defpoll singer :interval "0.5s" "scripts/artist")
+(defpoll album :interval "0.5s" "scripts/album")
+(defpoll coverart :interval "0.5s" "scripts/coverart --art")
+
+;; spotify
+(defwidget spotify []
+  (box :class "spotify-container" :orientation "h" :space-evenly "true"
+    (box :class "spotify-img" :style "background-image: url('${coverart}');")
+    (box :class "spotify-inner-right-container" :orientation "v" :valign "center" :halign "center" :space-evenly "false" 
+      (box :orientation "v" :spacing 20
+        (label :class "spotify-title" :text "${songtitle}" :limit-width "24")
+        (label :class "spotify-singer" :text "~ ${singer} ~" :limit-width "20")
+        (label :class "spotify-album" :text "${album}" :limit-width "20")
+      )
+      (box :class "spotify-controls" :orientation "h" :halign "center" :space-evenly "false" :spacing 30
+        (button :onclick "playerctl previous" "󰒮")
+        (button :onclick "playerctl -p spotify play-pause" "${playpause}")
+        (button :onclick "playerctl -p spotify next" "󰒭")
+      )
+    )
+  )
+)
+
+(defwindow spotify
+    :stacking "fg"
+	:geometry (geometry :x "37.2%"
+						:y "4%" 
+						:width "570px" 
+						)
+(spotify))
+
+(defwidget poweroptions []
+  (box :class "powermenu-container" :orientation "v" :spacing 30
+    (button :class "lock" :onclick "betterlockscreen -l dim" "")
+    (button :class "logout" :onclick "pkill xmonad" "󰩈")
+    (button :class "suspend" :onclick "systemctl suspend" "󰤄")
+    (button :class "restart" :onclick "reboot" "")
+    (button :class "shutdown" :onclick "shutdown -h now" "")
+  )
+)
+
+(defwindow powermenu
+    :stacking "fg"
+	:geometry (geometry :x "96.8%"
+						:y "4%" 
+						:width 50)
+    (poweroptions)
+)
+
+
+(defwidget togglepower []
+  (box :class "powertoggler"
+    (button :class "toggle" :onclick "eww open --toggle powermenu" "󰐦" )
+  )
+)
+
+
+(defwindow powertoggler
+    :stacking "fg"
+	:geometry (geometry :x "2480px" 
+						:y "8px" 
+                        :width "40px"
+                        :height "40px"
+			   )
+    (togglepower)
+)
+
+(defvar time-visible false)
+
+(defpoll time :interval "60s"
+              :initial "initial-value" 
+              :run-while time-visible 
+  `date +%H:%M' '%p`)
+
+(defwidget datetime []
+  (box :class "timedisplay"
+    (button :class "timebtn" :onclick "eww open --toggle mycal" "${time}" )
+  )
+)
+
+(defwindow datetoggler
+    :stacking "fg"
+	:geometry (geometry :x "79.6%" 
+						:y "8px" 
+                        :height "40px"
+			   )
+    (datetime)
+)
+
+(defpoll xmonad-layout :interval "1s" `scripts/xmonad_layout`)
+
+(defwidget currentlayout []
+	(box :class "xmonad-layout-container" :orientation "h"
+		(label :halign "center" :limit-width 5 :text xmonad-layout)))
+
+(defwindow showlayout
+    :stacking "fg"
+	:geometry (geometry :x "16.3%"
+                        :y "0.6%"
+                        :height 40)
+(currentlayout))
+
+(defpoll wmclass :interval "1s" `scripts/get_wm_class`)
+
+(defwidget focusedclass []
+	(box :class "wmclass-container" :hexpand "true" :tooltip "${wmclass}"
+		(label :halign "center" :text wmclass :limit-width 20 :show-truncated "true" ))) 
+
+(defwindow showfocusedclass
+    :stacking "fg"
+	:geometry (geometry :x "19.5%"
+                        :y "0.6%"
+                        :height 40)
+(focusedclass))
+
+
+(defpoll volume :interval "1s" "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%' | head -1")
+
+(defwidget showvol []
+  (box :class "metric" 
+       :orientation "h" 
+       :space-evenly "false"
+       :tooltip volume
+    (button :onclick "amixer -D pulse set Master 1+ toggle" "")
+    (scale :min 0
+           :max 100
+           :value volume
+           :onchange "amixer -D pulse sset Master {}%"
+    )
+  )
+)
+
+
+(defpoll wifi-signal :interval "10s" "nmcli -f IN-USE,SIGNAL,SSID device wifi | awk '/^\*/{if (NR!=1) {print $2}}'")
+
+(defwidget showwifi []
+  (box :class "metric"
+       :orientation "h"
+       :space-evenly "false"
+       :active "false"
+      (box "󰖩")
+      (scale :min 0
+             :max 100
+             :active "false"
+             :value {wifi-signal != "" ? wifi-signal : "0.0"}
+      )
+  )
+)           
+
+(defpoll ram :interval "3s" "printf $(free -m | grep Mem | awk '{print ($3/$2)*100}')")
+
+(defwidget showmemory []
+  (box :class "metric"
+       :orientation "h"
+       :space-evenly "false"
+       :active "false"
+      (box "󰍛")
+      (scale :min 0
+             :max 100
+             :value ram
+      )
+  )
+)           
+
+(defpoll cpu :interval "3s" "top -b -n 1 | grep 'Cpu(s)' | awk '{print $2}'")
+
+(defwidget showcpu []
+  (box :class "metric"
+       :orientation "h"
+       :space-evenly "false"
+       :active "false"
+      (box "")
+      (scale :min 0
+             :max 100
+             :value cpu
+      )
+  )
+)           
+
+(defwidget sysdata []
+  (box :class "metric"
+       :orientation "v"
+       :space-evenly "false"
+       (showvol)
+       (showwifi)
+       (showcpu)
+       (showmemory)
+  )
+)           
+
+(defwindow showsysdata
+    :stacking "fg"
+	:geometry (geometry :x "91.3%"
+                        :y "4%"
+                        :height 40)
+(sysdata))
+
+(defwidget togglesysdata []
+  (box :class "sysdatatoggler"
+    (button :class "toggle" :onclick "eww open --toggle showsysdata" "SYS " )
+  )
+)
+
+(defwindow sysdatatoggler
+    :stacking "fg"
+	:geometry (geometry :x "2344px" 
+						:y "8px" 
+                        :width "100px"
+                        :height "40px"
+			   )
+    (togglesysdata)
+)
+
+(defwidget applications []
+  (box :orientation "v" :space-evenly "false" :class "app-outer-container"
+    (box :orientation "v" :space-evenly "false" :class "app-inner-container" :vexpand "false" :hexpand "false" :valign "center" :spacing 40
+    (box :orientation "h" :space-evenly "false" :class "app-inner-container-top" :vexpand "false" :hexpand "false" :valign "center" :spacing 24
+      (button :tooltip "Launch Edge" :style "background-image :url('images/edge.svg');" :class "edge" :onclick "scripts/applauncher.sh --edge")
+      (button :tooltip "Launch Terminal" :style "background-image :url('images/kitty.svg');" :class "kitty" :onclick "scripts/applauncher.sh --kitty")
+      (button :tooltip "Launch Thunar" :style "background-image :url('images/files.svg');" :class "thunar" :onclick "scripts/applauncher.sh --files"))
+    (box :orientation "h" :space-evenly "false" :class "app-inner-container-bottom" :vexpand "false" :hexpand "false" :valign "center" :spacing 24
+      (button :tooltip "Launch Spotify" :style "background-image :url('images/spotify.svg');" :class "spotify" :onclick "scripts/applauncher.sh --spotify")
+      (button :tooltip "Launch Discord" :style "background-image :url('images/discord.svg');" :class "discord" :onclick "scripts/applauncher.sh --discord")
+      (button :tooltip "Launch GitHub" :style "background-image :url('images/git.svg');" :class "git" :onclick "scripts/applauncher.sh --git")))))
+
+(defwindow applications
+    :stacking "fg"
+	:geometry (geometry :x "1.4%"
+                        :y "4%"
+                        :height 150)
+(applications))
